@@ -167,9 +167,10 @@ public class WordCloud {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int maxRadius = dimension.width;
+        final int stepFactor = Math.max(1, (int) (maxRadius / 1000) ); // Used to speedup placement for large images (4000x4000 or more pixels)
 
-        for (int r = 0; r < maxRadius; r += 2) {
-            for (int x = -r; x <= r; x++) {
+        for (int r = 0; r < maxRadius; r += (2 * stepFactor) ) {
+            for (int x = -r; x <= r; x += (1 * stepFactor) ) {
                 if (start.x + x < 0) { continue; }
                 if (start.x + x >= maxRadius) { continue; }
 
