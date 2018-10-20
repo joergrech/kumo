@@ -76,6 +76,15 @@ public class WordCloud {
     public void build(final List<WordFrequency> wordFrequencies) {
         Collections.sort(wordFrequencies);
 
+        // New: Force first placement to be horizontal
+        if (firstPlacement) {
+            orgAngleGenerator = angleGenerator;
+            this.setAngleGenerator(new AngleGenerator(0));
+            firstPlacement = true;
+        } else {
+            angleGenerator = orgAngleGenerator;
+        }
+
         wordPlacer.reset();
         skipped.clear();
 
