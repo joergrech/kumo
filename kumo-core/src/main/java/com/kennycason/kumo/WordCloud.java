@@ -57,7 +57,11 @@ public class WordCloud {
     protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
     protected ColorPalette colorPalette = new ColorPalette(0x02B6F2, 0x37C2F0, 0x7CCBE6, 0xC4E7F2, 0xFFFFFF);
     protected WordStartStrategy wordStartStrategy = new RandomWordStart();
-    
+
+    // new fields to force first placement to be horizontal
+    private boolean firstPlacement = true;
+    private AngleGenerator orgAngleGenerator;
+
     public WordCloud(final Dimension dimension, final CollisionMode collisionMode) {
         this.collisionMode = collisionMode;
         this.padder = derivePadder(collisionMode);
@@ -77,7 +81,17 @@ public class WordCloud {
 
         int currentWord = 1;
         for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
+            // New: Force first placement to be horizontal
+            if (firstPlacement) {
+                orgAngleGenerator = angleGenerator;
+                this.setAngleGenerator(new AngleGenerator(0));
+                firstPlacement = true;
+            } else {
+                angleGenerator = orgAngleGenerator;
+            }
+
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
+            System.out.println(point);
             final boolean placed = place(word, point);
 
             if (placed) {
@@ -167,7 +181,8 @@ public class WordCloud {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int maxRadius = dimension.width;
-        final int stepFactor = Math.max(1, (int) (maxRadius / 400) ); // Used to speedup placement for large images (4000x4000 or more pixels)
+        // NEW: Speedup placement for large images (4000x4000 or more pixels)
+        final int stepFactor = Math.max(1, (int) (maxRadius / 400) );
 //        if (stepFactor != 1)
 //		LOGGER.info("Using step factor of {} to speedup placement for large image with {}x{} pixels", stepFactor, dimension.width, dimension.height);
 
