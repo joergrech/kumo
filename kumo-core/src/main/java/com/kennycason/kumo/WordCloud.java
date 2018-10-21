@@ -84,6 +84,14 @@ public class WordCloud {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
             final boolean placed = place(word, point);
 
+            if (firstPlacement) {
+                orgAngleGenerator = angleGenerator;
+                this.setAngleGenerator(new AngleGenerator(0));
+                firstPlacement = true;
+            } else {
+                angleGenerator = orgAngleGenerator;
+            }
+
             if (placed) {
                 if (LOGGER.isInfoEnabled()) {
                     LOGGER.info("placed: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
@@ -173,14 +181,6 @@ public class WordCloud {
         final int maxRadius = dimension.width;
 		// NEW: Speedup placement for large images (4000x4000 or more pixels)
 		final int stepFactor = Math.max(1, (int) (maxRadius / 333) );
-
-        if (firstPlacement) {
-			orgAngleGenerator = angleGenerator;
-			angleGenerator = this.setAngleGenerator(new AngleGenerator(0));
-            firstPlacement = true;
-        } else {
-            angleGenerator = orgAngleGenerator;
-        }
 
         for (int r = 0; r < maxRadius; r += (2 * stepFactor) ) {
             for (int x = -r; x <= r; x += (1 * stepFactor) ) {
