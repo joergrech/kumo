@@ -76,28 +76,19 @@ public class WordCloud {
     public void build(final List<WordFrequency> wordFrequencies) {
         Collections.sort(wordFrequencies);
 
-        // New: Force first placement to be horizontal
-        if (firstPlacement) {
-            orgAngleGenerator = angleGenerator;
-            this.setAngleGenerator(new AngleGenerator(0));
-            firstPlacement = true;
-        } else {
-            angleGenerator = orgAngleGenerator;
-        }
-
         wordPlacer.reset();
         skipped.clear();
 
         int currentWord = 1;
         for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             // New: Force first placement to be horizontal
-            if (firstPlacement) {
-                orgAngleGenerator = angleGenerator;
-                this.setAngleGenerator(new AngleGenerator(0));
-                firstPlacement = true;
-            } else {
-                angleGenerator = orgAngleGenerator;
-            }
+//            if (firstPlacement) {
+//                orgAngleGenerator = angleGenerator;
+//                this.setAngleGenerator(new AngleGenerator(0));
+//                firstPlacement = true;
+//            } else {
+//                angleGenerator = orgAngleGenerator;
+//            }
 
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
             System.out.println(point);
