@@ -172,9 +172,8 @@ public class WordCloud {
 
         final int maxRadius = dimension.width;
 		// NEW: Speedup placement for large images (4000x4000 or more pixels)
-		final int stepFactor = Math.max(1, (int) (maxRadius / 400) );
-//        if (stepFactor != 1)
-//		LOGGER.info("Using step factor of {} to speedup placement for large image with {}x{} pixels", stepFactor, dimension.width, dimension.height);
+		final int stepFactor = Math.max(1, (int) (maxRadius / 333) );
+
         if (firstPlacement) {
 			orgAngleGenerator = angleGenerator;
 			angleGenerator = this.setAngleGenerator(new AngleGenerator(0));
