@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Created by kenny on 6/29/14.
@@ -71,6 +72,7 @@ public class WordCloud {
         this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, new Point(0, 0));
         this.dimension = dimension;
         this.background = new RectangleBackground(dimension);
+        java.util.logging.Logger.getLogger(WordCloud.class.getName()).setLevel(Level.WARNING);
     }
 
     public void build(final List<WordFrequency> wordFrequencies) {
