@@ -220,7 +220,7 @@ public class WordCloud {
 	    				centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
 		    			underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
                     } catch(Exception e) {
-                        underlyingColor = 0;
+                        underlyingColor = (int) 0xff00ff00;
                     }
 					int textColor = (int) 0xff000000; // assuming text color is white
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
