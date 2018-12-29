@@ -28,6 +28,9 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -206,7 +209,17 @@ public class WordCloud {
                 }
                 if (placed) {
                     collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
-                    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
+
+                    // NEW: get underlying color and recolor word
+					int centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
+					int centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
+					int underlyingColor = (int) 0xffff0000; // red test color
+//					underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+					int textColor = (int) 0xff000000; // assuming text color is black
+					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
+					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
+
+// ORIGINAL DELETE ME:	graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
                     return true;
                 }
 
@@ -215,6 +228,31 @@ public class WordCloud {
 
         return false;
     }
+
+	private BufferedImage recolorImage(BufferedImage image, int oldColor, int newColor) {
+		final ImageFilter filter = new RGBImageFilter() {
+			public int oldRGB = oldColor;
+			public int newRGB = newColor;
+			public final int filterRGB(final int x, final int y, final int rgb) {
+				if ((rgb | 0xFF000000) == oldRGB) {
+					return newRGB;
+				} else {
+					return rgb;
+				}
+			}
+		};
+		// Create Image using filter
+		FilteredImageSource ip = new FilteredImageSource(image.getSource(), filter);
+		Image coloredImage = Toolkit.getDefaultToolkit().createImage(ip);
+
+		// Convert Image to BufferedImage
+		BufferedImage newBufferedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = newBufferedImage.createGraphics();
+		g.drawImage(coloredImage, 0, 0, null);
+		g.dispose();
+
+		return newBufferedImage;
+	}
 
     private boolean canPlace(final Word word) {
         if (!background.isInBounds(word)) { return false; }
