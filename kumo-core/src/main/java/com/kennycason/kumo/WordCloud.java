@@ -218,14 +218,14 @@ public class WordCloud {
                     try {
     					centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
 	    				centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
-                        System.out.println("" + centerX + " | " + centerY);
+                        LOGGER.info("  {} | {}", centerX, centerY);
 		    			underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
-                        System.out.print(" --> " + underlyingColor);
+                        LOGGER.info("  --> {}", underlyingColor);
                     } catch(Exception e) {
-                        underlyingColor = (int) 0xff00ff00;
-                        System.out.print(" --> " + underlyingColor);
+                        underlyingColor = 0xff0000ff;
+                        LOGGER.info("  --> {}", underlyingColor);
                     }
-					int textColor = (int) 0xff000000; // assuming text color is white
+					int textColor = 0xff000000; // assuming text color is white
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
 					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
 
