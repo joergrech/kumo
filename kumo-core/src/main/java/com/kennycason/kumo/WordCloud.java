@@ -214,7 +214,7 @@ public class WordCloud {
 					int centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
 					int centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
 					int underlyingColor = (int) 0xffff0000; // red test color
-//					underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+					underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
 					int textColor = (int) 0xff000000; // assuming text color is black
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
 					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
