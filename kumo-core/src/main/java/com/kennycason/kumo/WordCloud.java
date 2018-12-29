@@ -215,7 +215,7 @@ public class WordCloud {
 					int centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
 					int underlyingColor = (int) 0xffff0000; // red test color
 					underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
-					int textColor = (int) 0xffffffff; // assuming text color is black
+					int textColor = (int) 0x00ffffff; // assuming text color is white
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
 					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
 
@@ -234,7 +234,7 @@ public class WordCloud {
 			public int oldRGB = oldColor;
 			public int newRGB = newColor;
 			public final int filterRGB(final int x, final int y, final int rgb) {
-				if ((rgb | 0xFF000000) == oldRGB) {
+				if ((rgb | 0x00ffffff) == oldRGB) {
 					return newRGB;
 				} else {
 					return rgb;
