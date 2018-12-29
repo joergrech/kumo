@@ -99,11 +99,11 @@ public class WordCloud {
 
             if (placed) {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("placed1: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
+                    LOGGER.debug("placed: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
                 }
             } else {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("skipped2: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
+                    LOGGER.debug("skipped: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
                 }
                 skipped.add(word);
             }
@@ -217,8 +217,9 @@ public class WordCloud {
                     try {
                         centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-                        LOGGER.info("Position: {} | {}", centerX, centerY);
                         underlyingColor = collisionRaster.getRGB(centerX, centerY);
+                        LOGGER.info("Position: {} | {} --> {}", centerX, centerY, underlyingColor);
+                        LOGGER.info("        : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
                     } catch(Exception e) {
                         underlyingColor = 0xff0000ff;
                         LOGGER.info("  --> {}: {}", underlyingColor, e);
@@ -241,7 +242,7 @@ public class WordCloud {
             public int oldRGB = oldColor;
             public int newRGB = newColor;
             public final int filterRGB(final int x, final int y, final int rgb) {
-                if ((rgb | 0xFF000000) == oldRGB) {
+                if ((rgb | 0x00ffffff) == oldRGB) {
                     return newRGB;
                 } else {
                     return rgb;
