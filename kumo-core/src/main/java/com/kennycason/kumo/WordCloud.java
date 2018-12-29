@@ -99,11 +99,11 @@ public class WordCloud {
 
             if (placed) {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("placed: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
+                    LOGGER.info("placed1: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
                 }
             } else {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("skipped: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
+                    LOGGER.info("skipped2: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
                 }
                 skipped.add(word);
             }
@@ -184,8 +184,8 @@ public class WordCloud {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int maxRadius = dimension.width;
-		// NEW: Speedup placement for large images (4000x4000 or more pixels)
-		final int stepFactor = Math.max(1, (int) (maxRadius / 100) );
+        // NEW: Speedup placement for large images (4000x4000 or more pixels)
+        final int stepFactor = Math.max(1, (int) (maxRadius / 100) );
 
         for (int r = 0; r < maxRadius; r += (2 * stepFactor) ) {
             for (int x = -r; x <= r; x += (1 * stepFactor) ) {
@@ -216,20 +216,20 @@ public class WordCloud {
 
                     int underlyingColor;// = word.getBufferedImage().getRGB(centerX, centerY);
 //                    try {
-    					centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
-	    				centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
+                        centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
+                        centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
                         LOGGER.info("  {} | {}", centerX, centerY);
-		    			underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+                        underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
                         LOGGER.info("  --> {}", underlyingColor);
 //                    } catch(Exception e) {
 //                        underlyingColor = 0xff0000ff;
 //                        LOGGER.info("  --> {}", underlyingColor);
 //                    }
-					int textColor = 0xff000000; // assuming text color is white
-					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
-					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
+                    int textColor = 0xff000000; // assuming text color is white
+                    BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
+                    graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
 
-// ORIGINAL DELETE ME:	graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
+// ORIGINAL DELETE ME:    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
                     return true;
                 }
             }
@@ -238,30 +238,30 @@ public class WordCloud {
         return false;
     }
 
-	private BufferedImage recolorImage(BufferedImage image, int oldColor, int newColor) {
-		final ImageFilter filter = new RGBImageFilter() {
-			public int oldRGB = oldColor;
-			public int newRGB = newColor;
-			public final int filterRGB(final int x, final int y, final int rgb) {
-				if ((rgb | 0xFF000000) == oldRGB) {
-					return newRGB;
-				} else {
-					return rgb;
-				}
-			}
-		};
-		// Create Image using filter
-		FilteredImageSource ip = new FilteredImageSource(image.getSource(), filter);
-		Image coloredImage = Toolkit.getDefaultToolkit().createImage(ip);
+    private BufferedImage recolorImage(BufferedImage image, int oldColor, int newColor) {
+        final ImageFilter filter = new RGBImageFilter() {
+            public int oldRGB = oldColor;
+            public int newRGB = newColor;
+            public final int filterRGB(final int x, final int y, final int rgb) {
+                if ((rgb | 0xFF000000) == oldRGB) {
+                    return newRGB;
+                } else {
+                    return rgb;
+                }
+            }
+        };
+        // Create Image using filter
+        FilteredImageSource ip = new FilteredImageSource(image.getSource(), filter);
+        Image coloredImage = Toolkit.getDefaultToolkit().createImage(ip);
 
-		// Convert Image to BufferedImage
-		BufferedImage newBufferedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = newBufferedImage.createGraphics();
-		g.drawImage(coloredImage, 0, 0, null);
-		g.dispose();
+        // Convert Image to BufferedImage
+        BufferedImage newBufferedImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = newBufferedImage.createGraphics();
+        g.drawImage(coloredImage, 0, 0, null);
+        g.dispose();
 
-		return newBufferedImage;
-	}
+        return newBufferedImage;
+    }
 
     private boolean canPlace(final Word word) {
         if (!background.isInBounds(word)) { return false; }
