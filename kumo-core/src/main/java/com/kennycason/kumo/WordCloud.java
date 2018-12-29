@@ -213,8 +213,7 @@ public class WordCloud {
                     // NEW: get underlying color and recolor word
 					int centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
 					int centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-					int underlyingColor = (int) 0xffff0000; // red test color
-					underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+					int underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
 					int textColor = (int) 0x00ffffff; // assuming text color is white
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
 					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
