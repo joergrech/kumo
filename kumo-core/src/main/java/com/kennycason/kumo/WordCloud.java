@@ -220,8 +220,8 @@ public class WordCloud {
                         centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
                         LOGGER.info("Color: {} | {}", centerX, centerY);
                         BufferedImage image = word.getBufferedImage();
-					    LOGGER.info("Size: {} | {}", image.getWidth(), image.getHeight());
-                        underlyingColor = image.getRGB(centerX, centerY);
+					    LOGGER.info("Size: {} | {}", this.bufferedImage.getWidth(), this.bufferedImage.getHeight());
+                        underlyingColor = collisionRaster.getRGB(centerX, centerY);
                         LOGGER.info("  --> {}", underlyingColor);
 //                    } catch(Exception e) {
 //                        underlyingColor = 0xff0000ff;
