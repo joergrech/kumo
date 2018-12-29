@@ -216,8 +216,8 @@ public class WordCloud {
 
                     int underlyingColor;// = word.getBufferedImage().getRGB(centerX, centerY);
 //                    try {
-                        centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
-                        centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
+                        centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
+                        centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
                         LOGGER.info("Color: {} | {}", centerX, centerY);
                         BufferedImage image = word.getBufferedImage();
 					    LOGGER.info("Size: {} | {}", this.bufferedImage.getWidth(), this.bufferedImage.getHeight());
