@@ -218,15 +218,17 @@ public class WordCloud {
 //                    try {
                         centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
-                        LOGGER.info("-  {} | {}", centerX, centerY);
-                        underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+                        LOGGER.info("Color  {} | {}", centerX, centerY);
+                        BufferedImage image = word.getBufferedImage();
+					    LOGGER.info("Size  {} | {}", image.getWidth(), image.getHeight());
+                        underlyingColor = image.getRGB(centerX, centerY);
                         LOGGER.info("  --> {}", underlyingColor);
 //                    } catch(Exception e) {
 //                        underlyingColor = 0xff0000ff;
 //                        LOGGER.info("  --> {}", underlyingColor);
 //                    }
                     int textColor = 0xff000000; // assuming text color is white
-                    BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
+                    BufferedImage recoloredWordImage = word.getBufferedImage(); recolorImage(word.getBufferedImage(), textColor, underlyingColor);
                     graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
 
 // ORIGINAL DELETE ME:    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
