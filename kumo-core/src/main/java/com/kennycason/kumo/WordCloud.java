@@ -218,9 +218,12 @@ public class WordCloud {
                     try {
     					centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
 	    				centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
+                        System.out.println("" + centerX + " | " + centerY);
 		    			underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+                        System.out.print(" --> " + underlyingColor);
                     } catch(Exception e) {
                         underlyingColor = (int) 0xff00ff00;
+                        System.out.print(" --> " + underlyingColor);
                     }
 					int textColor = (int) 0xff000000; // assuming text color is white
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
@@ -229,7 +232,6 @@ public class WordCloud {
 // ORIGINAL DELETE ME:	graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
                     return true;
                 }
-
             }
         }
 
