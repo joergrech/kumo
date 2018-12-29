@@ -213,19 +213,16 @@ public class WordCloud {
                     // NEW: get underlying color and recolor word
                     int centerX;// = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
                     int centerY;// = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
-
                     int underlyingColor;// = word.getBufferedImage().getRGB(centerX, centerY);
-//                    try {
+                    try {
                         centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-                        LOGGER.info("Color: {} | {}", centerX, centerY);
-                        BufferedImage image = word.getBufferedImage();
+                        LOGGER.info("Position: {} | {}", centerX, centerY);
                         underlyingColor = collisionRaster.getRGB(centerX, centerY);
-                        LOGGER.info("  --> {}", underlyingColor);
-//                    } catch(Exception e) {
-//                        underlyingColor = 0xff0000ff;
-//                        LOGGER.info("  --> {}", underlyingColor);
-//                    }
+                    } catch(Exception e) {
+                        underlyingColor = 0xff0000ff;
+                        LOGGER.info("  --> {}: {}", underlyingColor, e);
+                    }
                     int textColor = 0xff000000; // assuming text color is white
                     BufferedImage recoloredWordImage = word.getBufferedImage(); recolorImage(word.getBufferedImage(), textColor, underlyingColor);
                     graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
