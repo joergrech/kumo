@@ -218,7 +218,7 @@ public class WordCloud {
 //                    try {
                         centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
-                        LOGGER.info("  {} | {}", centerX, centerY);
+                        LOGGER.info("-  {} | {}", centerX, centerY);
                         underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
                         LOGGER.info("  --> {}", underlyingColor);
 //                    } catch(Exception e) {
