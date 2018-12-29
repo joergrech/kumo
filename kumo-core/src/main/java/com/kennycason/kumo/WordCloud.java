@@ -211,10 +211,18 @@ public class WordCloud {
                     collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
 
                     // NEW: get underlying color and recolor word
-					int centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
-					int centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-					int underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
-					int textColor = (int) 0x00ffffff; // assuming text color is white
+                    int centerX;// = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
+                    int centerY;// = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
+
+                    int underlyingColor;// = word.getBufferedImage().getRGB(centerX, centerY);
+                    try {
+    					centerX = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
+	    				centerY = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
+		    			underlyingColor = word.getBufferedImage().getRGB(centerX, centerY);
+                    } catch(Exception e) {
+                        underlyingColor = 0;
+                    }
+					int textColor = (int) 0xff000000; // assuming text color is white
 					BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
 					graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
 
@@ -233,7 +241,7 @@ public class WordCloud {
 			public int oldRGB = oldColor;
 			public int newRGB = newColor;
 			public final int filterRGB(final int x, final int y, final int rgb) {
-				if ((rgb | 0x00ffffff) == oldRGB) {
+				if ((rgb | 0xFF000000) == oldRGB) {
 					return newRGB;
 				} else {
 					return rgb;
