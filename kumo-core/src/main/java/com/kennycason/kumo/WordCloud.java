@@ -219,7 +219,7 @@ public class WordCloud {
                         centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
                         underlyingColor = this.background.bufferedImage.getRGB(centerX, centerY);
                         LOGGER.info("Position: {} | {} --> {}", centerX, centerY, underlyingColor);
-                        LOGGER.info("  xxx   : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
+                        LOGGER.info("  x x   : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
                     } catch(Exception e) {
                         underlyingColor = 0xff0000ff;
                         LOGGER.info("  --> {}: {}", underlyingColor, e);
