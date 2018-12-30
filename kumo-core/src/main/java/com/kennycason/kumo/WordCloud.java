@@ -217,7 +217,7 @@ public class WordCloud {
                     try {
                         centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-                        underlyingColor = collisionRaster.getRGB(centerX, centerY);
+                        underlyingColor = this.background.bufferedImage.getRGB(centerX, centerY);
                         LOGGER.info("Position: {} | {} --> {}", centerX, centerY, underlyingColor);
                         LOGGER.info("        : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
                     } catch(Exception e) {

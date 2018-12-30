@@ -19,7 +19,7 @@ import java.io.InputStream;
 public class PixelBoundryBackground implements Background {
 
     private final CollisionRaster collisionRaster;
-
+    private final BufferedImage bufferedImage; // NEW: to access underlying colors
     private final RectangleBackground rectangleBackground;
 
     /**
@@ -31,6 +31,7 @@ public class PixelBoundryBackground implements Background {
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
         final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
+        this.bufferedImage = bufferedImage; // NEW: to access underlying colors
         this.collisionRaster = new CollisionRaster(bufferedImage);
         this.rectangleBackground = new RectangleBackground(new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
     }
