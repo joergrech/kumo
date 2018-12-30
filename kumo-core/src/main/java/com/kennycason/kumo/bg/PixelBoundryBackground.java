@@ -19,7 +19,7 @@ import java.io.InputStream;
 public class PixelBoundryBackground implements Background {
 
     private final CollisionRaster collisionRaster;
-    private final BufferedImage bufferedImage; // NEW: to access underlying colors
+    public final BufferedImage bufferedImage; // NEW: to access underlying colors
     private final RectangleBackground rectangleBackground;
 
     /**
