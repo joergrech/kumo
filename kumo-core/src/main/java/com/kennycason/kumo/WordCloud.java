@@ -213,11 +213,13 @@ public class WordCloud {
                     // NEW: get underlying color and recolor word
                     int centerX;// = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
                     int centerY;// = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
-                    int underlyingColor;// = word.getBufferedImage().getRGB(centerX, centerY);
+                    int underlyingColor = 0x00000000;// = word.getBufferedImage().getRGB(centerX, centerY);
                     try {
                         centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-                        underlyingColor = this.background.bufferedImage.getRGB(centerX, centerY);
+                        if (this.background != null && this.background.bufferedImage != null) {
+                            underlyingColor = this.background.bufferedImage.getRGB(centerX, centerY);
+                        }
                         LOGGER.info("Position: {} | {} --> {}", centerX, centerY, underlyingColor);
                         LOGGER.info("  x x   : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
                     } catch(Exception e) {
