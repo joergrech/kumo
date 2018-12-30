@@ -50,6 +50,7 @@ public class WordCloud {
     protected final RectanglePixelCollidable backgroundCollidable;
     protected final CollisionRaster collisionRaster;
     protected final BufferedImage bufferedImage;
+    protected BufferedImage backgroundImage; // NEW: to access underlying colors
     protected final Padder padder;
     protected final Set<Word> skipped = new HashSet<>();
     protected int padding;
@@ -217,11 +218,11 @@ public class WordCloud {
                     try {
                         centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
                         centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-                        if (this.background != null && this.background.bufferedImage != null) {
-                            underlyingColor = this.background.bufferedImage.getRGB(centerX, centerY);
+                        if (this.backgroundImage != null) {
+                            underlyingColor = this.backgroundImage.getRGB(centerX, centerY);
                         }
                         LOGGER.info("Position: {} | {} --> {}", centerX, centerY, underlyingColor);
-                        LOGGER.info("  x x   : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
+//                        LOGGER.info("  x x   : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
                     } catch(Exception e) {
                         underlyingColor = 0xff0000ff;
                         LOGGER.info("  --> {}: {}", underlyingColor, e);
@@ -345,6 +346,7 @@ public class WordCloud {
     }
 
     public void setBackground(final Background background) {
+        this.backgroundImage = background.bufferedImage;
         this.background = background;
     }
 
