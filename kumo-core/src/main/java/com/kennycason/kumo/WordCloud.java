@@ -212,31 +212,22 @@ public class WordCloud {
                     collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
 
                     // NEW: get underlying color and recolor word
-                    int centerX;// = word.getPosition().x; //+ word.getBufferedImage().getWidth() / 2;
-                    int centerY;// = word.getPosition().y; //+ word.getBufferedImage().getHeight() / 2;
-                    int underlyingColor = 0x00000000;// = word.getBufferedImage().getRGB(centerX, centerY);
-                    try {
-                        centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
-                        centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
-                        if (this.backgroundImage != null) {
-                            underlyingColor = this.backgroundImage.getRGB(centerX, centerY);
-                        }
-                        LOGGER.info("Position: {} | {} --> {}", centerX, centerY, underlyingColor);
-//                        LOGGER.info("  x x   : {} | {}", (underlyingColor | 0x00ffffff), (underlyingColor | 0xff000000));
-                    } catch(Exception e) {
-                        underlyingColor = 0xff0000ff;
-                        LOGGER.info("  --> {}: {}", underlyingColor, e);
+                    if (this.backgroundImage != null) {
+                        int underlyingColor = 0x00000000;
+                        int centerX = word.getPosition().x + word.getBufferedImage().getWidth() / 2;
+                        int centerY = word.getPosition().y + word.getBufferedImage().getHeight() / 2;
+                        underlyingColor = this.backgroundImage.getRGB(centerX, centerY);
+                        int textColor = 0xffffffff; // assuming text color is white
+                        BufferedImage recoloredWordImage = recolorImage(word.getBufferedImage(), textColor, underlyingColor);
+                        graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
+                    } else {
+                        // ORIGINAL DELETE ME:
+                        graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
                     }
-                    int textColor = 0xff000000; // assuming text color is white
-                    BufferedImage recoloredWordImage = word.getBufferedImage(); recolorImage(word.getBufferedImage(), textColor, underlyingColor);
-                    graphics.drawImage(recoloredWordImage, word.getPosition().x, word.getPosition().y, null);
-
-// ORIGINAL DELETE ME:    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
                     return true;
                 }
             }
         }
-
         return false;
     }
 
@@ -245,7 +236,7 @@ public class WordCloud {
             public int oldRGB = oldColor;
             public int newRGB = newColor;
             public final int filterRGB(final int x, final int y, final int rgb) {
-                if ((rgb | 0x00ffffff) == oldRGB) {
+                if ((rgb | 0xFF000000) == oldRGB) {
                     return newRGB;
                 } else {
                     return rgb;
@@ -346,8 +337,10 @@ public class WordCloud {
     }
 
     public void setBackground(final Background background) {
-        this.backgroundImage = background.bufferedImage;
         this.background = background;
+    }
+    public void setBackgroundImage(final BufferedImage bufferedImage) {
+        this.backgroundImage = bufferedImage;
     }
 
     public void setFontScalar(final FontScalar fontScalar) {
